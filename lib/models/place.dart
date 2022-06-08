@@ -5,7 +5,7 @@ class PlaceLocation {
   final double longitude;
   final String? addressName;
 
-  PlaceLocation({
+  const PlaceLocation({
     required this.latitude,
     required this.longitude,
     this.addressName,
