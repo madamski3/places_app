@@ -24,27 +24,28 @@ class PlacesListScreen extends StatelessWidget {
         child: FutureBuilder(
           future:
               Provider.of<Places>(context, listen: false).fetchAndSetPlaces(),
-          builder: (ctx, snapshot) =>
-              snapshot.connectionState == ConnectionState.waiting
-                  ? Center(child: CircularProgressIndicator())
-                  : Consumer<Places>(
-                      child: const Text(
-                          'You haven\'t added any places yet. Start adding some!'),
-                      builder: (context, places, ch) => places.items.length <= 0
-                          ? ch!
-                          : ListView.builder(
-                              itemCount: places.items.length,
-                              itemBuilder: (ctx, i) => ListTile(
-                                leading: CircleAvatar(
-                                    backgroundImage:
-                                        FileImage(places.items[i].image)),
-                                title: Text(places.items[i].title),
-                                onTap: () {
-                                  // TODO - Go to detail page
-                                },
-                              ),
-                            ),
-                    ),
+          builder: (ctx, snapshot) => snapshot.connectionState ==
+                  ConnectionState.waiting
+              ? Center(child: CircularProgressIndicator())
+              : Consumer<Places>(
+                  child: const Text(
+                      'You haven\'t added any places yet. Start adding some!'),
+                  builder: (context, places, ch) => places.items.length <= 0
+                      ? ch!
+                      : ListView.builder(
+                          itemCount: places.items.length,
+                          itemBuilder: (ctx, i) => ListTile(
+                            leading: CircleAvatar(
+                                backgroundImage:
+                                    FileImage(places.items[i].image)),
+                            title: Text(places.items[i].title),
+                            subtitle: Text(places.items[i].location!.address!),
+                            onTap: () {
+                              // TODO - Go to detail page
+                            },
+                          ),
+                        ),
+                ),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../widgets/image_input.dart';
 import '../providers/places.dart';
 import '../widgets/location_input.dart';
+import '../models/place.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   static const routeName = '/add-place';
@@ -16,18 +17,26 @@ class AddPlaceScreen extends StatefulWidget {
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
   final _titleController = TextEditingController();
   File? _pickedImage;
+  PlaceLocation? _pickedLocation;
 
   void _chooseImage(File pickedImage) {
     _pickedImage = pickedImage;
   }
 
+  void _selectPlace(double latitude, double longitude) {
+    _pickedLocation = PlaceLocation(latitude: latitude, longitude: longitude);
+  }
+
   void _savePlace() {
-    if (_titleController.text.isEmpty || _pickedImage == null) {
+    if (_titleController.text.isEmpty ||
+        _pickedImage == null ||
+        _pickedLocation == null) {
       return;
     }
     Provider.of<Places>(context, listen: false).addPlace(
       title: _titleController.text,
       image: _pickedImage!,
+      location: _pickedLocation!,
     );
     Navigator.of(context).pop();
   }
@@ -55,7 +64,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     SizedBox(height: 10),
                     ImageInput(_chooseImage),
                     SizedBox(height: 10),
-                    LocationInput(),
+                    LocationInput(_selectPlace),
                   ],
                 ),
               ),
