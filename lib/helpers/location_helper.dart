@@ -16,9 +16,15 @@ class LocationHelper {
     double latitude,
     double longitude,
   ) async {
-    final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$GOOGLE_API_KEY');
-    final response = await http.get(url);
-    return json.decode(response.body)['results'][0]['formatted_address'];
+    try {
+      final url = Uri.parse(
+          'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$GOOGLE_API_KEY');
+      final response = await http.get(url);
+      final parsedAddress = json.decode(response.body)['results'];
+      print(parsedAddress.toString());
+      return parsedAddress[0]['formatted_address'];
+    } catch (error) {
+      return 'Unknown address';
+    }
   }
 }
