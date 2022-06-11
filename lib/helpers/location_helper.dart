@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-const GOOGLE_API_KEY = 'AIzaSyBQyfbBayFTJbqYrgV5Cry6iVKkUa9iQB8';
+const GOOGLE_API_KEY = 'AIzaSyBeEUU4H2p2VSUW3K0nVovO9JLzv0NT41I';
 const SIGNATURE = 'zL9jbyjw2uhvCkluT2-dtKm1ZCc=';
 
 class LocationHelper {
@@ -20,10 +20,13 @@ class LocationHelper {
       final url = Uri.parse(
           'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$GOOGLE_API_KEY');
       final response = await http.get(url);
-      final parsedAddress = json.decode(response.body)['results'];
-      print(parsedAddress.toString());
-      return parsedAddress[0]['formatted_address'];
+      final parsedResponse = json.decode(response.body)['results'];
+      final responseStatus = json.decode(response.body)['status'];
+      print(responseStatus.toString());
+      print(parsedResponse.toString());
+      return parsedResponse[0]['formatted_address'];
     } catch (error) {
+      print(error.toString());
       return 'Unknown address';
     }
   }

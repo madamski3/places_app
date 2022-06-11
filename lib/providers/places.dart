@@ -60,4 +60,9 @@ class Places with ChangeNotifier {
     _items = transformedData;
     notifyListeners();
   }
+
+  Place findById(String id) {
+    final foundPlace = _items.firstWhere((place) => place.id == id);
+    return foundPlace;
+  }
 }
