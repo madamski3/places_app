@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/screens/map_screen.dart';
 import 'package:provider/provider.dart';
+import '../screens/map_screen.dart';
 import '../providers/places.dart';
 import '../models/place.dart';
 
@@ -14,9 +14,20 @@ class PlaceDetailScreen extends StatelessWidget {
     print(id);
     final place = Provider.of<Places>(context).findById(id);
 
+    void _deletePlace(String id) {
+      Navigator.of(context).pop();
+      Provider.of<Places>(context, listen: false).deletePlace(place.id);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(place.title),
+        actions: [
+          IconButton(
+            onPressed: () => _deletePlace(place.id),
+            icon: Icon(Icons.delete),
+          )
+        ],
       ),
       body: Column(
         children: [

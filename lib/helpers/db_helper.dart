@@ -27,6 +27,18 @@ class DBHelper {
     );
   }
 
+  static Future<void> delete(
+    String tableName,
+    String id,
+  ) async {
+    final db = await DBHelper.database();
+    await db.delete(
+      tableName,
+      where: "id = ?",
+      whereArgs: [id],
+    );
+  }
+
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DBHelper.database();
     return db.query(table);

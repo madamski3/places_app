@@ -43,6 +43,16 @@ class Places with ChangeNotifier {
     });
   }
 
+  Future<void> deletePlace(String id) async {
+    try {
+      await DBHelper.delete('places', id);
+      _items.removeWhere((place) => place.id == id);
+      notifyListeners();
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
   Future<void> fetchAndSetPlaces() async {
     final data = await DBHelper.getData('places');
     final transformedData = data
